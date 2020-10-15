@@ -1,0 +1,37 @@
+.input-one{
+    width: 50%;
+    height: 40px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    margin: 50px 25px 5px;
+    border-radius: 2px;
+}
+
+.input{
+    width: 50%;
+    height: 40px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: none;
+    margin: 5px 25px;
+    border-radius: 2px;
+}
+
+.input-detail{
+    width: 50%;
+    height: 100px;
+    padding: 5px;
+    border: none;
+    margin: 5px 25px;
+    border-radius: 2px;
+}
+
+.input-price{
+    width: 25%;
+    height: 40px;
+    padding: 5px;
+    border: none;
+    margin: 5px 25px;
+    border-radius: 2px;
+}
