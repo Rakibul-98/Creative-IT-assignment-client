@@ -39,7 +39,7 @@ const PlaceOrder = () => {
         formData.append('email', orderInfo.email);
         formData.append('name', orderInfo.name);
 
-        fetch('http://localhost:9000/addAOrder', {
+        fetch('https://boiling-oasis-63976.herokuapp.com/addAOrder', {
             method: 'POST',
             body: formData
         })

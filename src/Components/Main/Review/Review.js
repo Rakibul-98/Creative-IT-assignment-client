@@ -18,7 +18,7 @@ const Review = () => {
     const { register, handleSubmit, errors } = useForm();
     const onSubmit = data => {
 
-        fetch('http://localhost:9000/addAReview',{
+        fetch('https://boiling-oasis-63976.herokuapp.com/addAReview',{
             method:'POST',
             headers:{'content-type':'application/json'},
             body:JSON.stringify(data)

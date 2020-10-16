@@ -15,7 +15,7 @@ const Orders = () => {
    console.log(placedOrders)
 
    useEffect(()=>{
-        fetch('http://localhost:9000/orders?email='+loggedInUser.email,{
+        fetch('https://boiling-oasis-63976.herokuapp.com/orders?email='+loggedInUser.email,{
             method:'GET',
             headers:{
                'Content-Type': 'application/json',

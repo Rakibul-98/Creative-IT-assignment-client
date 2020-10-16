@@ -15,7 +15,7 @@ const AddAdmin = () => {
     const onSubmit = data => {
 
 
-        fetch('http://localhost:9000/addAdmin',{
+        fetch('https://boiling-oasis-63976.herokuapp.com/addAdmin',{
             method:'POST',
             headers:{'content-type':'application/json'},
             body:JSON.stringify(data)

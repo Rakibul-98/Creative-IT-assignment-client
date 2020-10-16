@@ -33,7 +33,7 @@ const AddServices = () => {
         formData.append('title', info.title);
         formData.append('description', info.description);
 
-        fetch('http://localhost:9000/addAService', {
+        fetch('https://boiling-oasis-63976.herokuapp.com/addAService', {
             method: 'POST',
             body: formData
         })
