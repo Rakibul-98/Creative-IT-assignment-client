@@ -1,24 +1,28 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListAlt, faPlus, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
-import Logo from '../../../../images/logos/logo.png';
+import React, { useEffect } from 'react';
 import './Service.css'
-import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../../../App';
+import { useState } from 'react';
+import SideNav from '../../SideNav/SideNav';
 
 const Service = () => {
 
    const [loggedInUser] = useContext(UserContext);
+   const [serviceList, setServiceList] = useState([]);
+
+
+
+   useEffect(()=>{
+    fetch('http://localhost:9000/ordersList')
+    .then(res =>res.json())
+    .then(data => setServiceList(data) )
+},[])
 
 
     return (
         <div className=" row">
             <div className="col-md-2 text">
-               <Link to="/"><img className="logo-img" src={Logo} alt=""/></Link>
-               <p style={{color:"#32CD32"}}><FontAwesomeIcon icon={faListAlt} />   Service list</p>
-               <Link to="/addServices"><p><FontAwesomeIcon icon={faPlus} />   Add service</p></Link>
-               <Link to="/addAdmin"><p><FontAwesomeIcon icon={faUserPlus} />   Make admin</p></Link>
+               <SideNav></SideNav>
             </div>
 
             <div className="col-md-10 mt-4">
@@ -36,7 +40,16 @@ const Service = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                            
+                                {
+                                    serviceList.map(service =>
+                                         <tr>
+                                            <td>{service.name} </td>
+                                            <td>{service.email} </td>
+                                            <td>{service.projectName} </td>
+                                            <td>{service.details} </td>
+                                            <td>{} </td>
+                                         </tr> )
+                                }
                             </tbody>
                         </table>
                     </div>

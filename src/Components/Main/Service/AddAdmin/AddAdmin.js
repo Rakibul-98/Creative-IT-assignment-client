@@ -1,11 +1,8 @@
-import { faListAlt, faPlus, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
-import Logo from '../../../../images/logos/logo.png';
-import './Admin.css'
+import './Admin.css';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../../../App';
+import SideNav from '../../SideNav/SideNav';
 
 
 
@@ -13,18 +10,33 @@ import { UserContext } from '../../../../App';
 const AddAdmin = () => {
 
 
+
     const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+
+
+        fetch('http://localhost:9000/addAdmin',{
+            method:'POST',
+            headers:{'content-type':'application/json'},
+            body:JSON.stringify(data)
+        })
+        .then(res =>res.json())
+        .then(success =>{
+            if (success) {
+                alert('Admin added successfully...');
+                window.location.reload();
+            }
+        })
+
+
+    };
 
     const [loggedInUser] = useContext(UserContext);
 
     return (
         <div className=" row">
             <div className="col-md-2 text">
-               <Link to="/"><img className="logo-img" src={Logo} alt=""/></Link>
-               <Link to="/service"><p><FontAwesomeIcon icon={faListAlt} />   Service list</p></Link>
-               <Link to="/addServices"><p><FontAwesomeIcon icon={faPlus} />   Add service</p></Link>
-               <p style={{color:"#32CD32"}}><FontAwesomeIcon icon={faUserPlus} />   Make admin</p>
+               <SideNav></SideNav>
             </div>
 
             <div className="col-md-10 mt-4">

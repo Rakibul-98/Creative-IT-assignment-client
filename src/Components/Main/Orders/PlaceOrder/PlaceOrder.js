@@ -1,11 +1,8 @@
-import React from 'react';
-import Logo from '../../../../images/logos/logo.png'
-import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboardList, faCommentDots, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { UserContext } from '../../../../App';
+import SideNav from '../../SideNav/SideNav';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -13,39 +10,72 @@ import { UserContext } from '../../../../App';
 
 const PlaceOrder = () => {
 
-    const { register, handleSubmit, errors } = useForm();
-    const onSubmit = data => console.log(data);
+    const history = useHistory();
+    const { from } = { from: { pathname: "/orders" } };
 
     const [loggedInUser] = useContext(UserContext);
 
+    const [orderInfo, setOrderInfo] = useState({});
+    const [photo, setPhoto] = useState(null);
 
+
+    const handleBlur = e => {
+        const newInfo = {...orderInfo};
+        newInfo[e.target.name] = e.target.value;
+        setOrderInfo(newInfo);
+    }
+
+    const handleFileChange = (e) =>{
+        const newFile = e.target.files[0];
+        setPhoto(newFile)
+    }
+
+    const handleSubmit = () =>{
+        const formData = new FormData()
+        formData.append('photo', photo);
+        formData.append('price', orderInfo.price);
+        formData.append('details', orderInfo.details);
+        formData.append('projectName', orderInfo.projectName);
+        formData.append('email', orderInfo.email);
+        formData.append('name', orderInfo.name);
+
+        fetch('http://localhost:9000/addAOrder', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert('Order placed successfully...');
+                history.replace(from)
+                console.log(data)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
 
 
     return (
         <div className=" row">
             <div className="col-md-2 text">
-               <Link to="/"><img className="logo-img" src={Logo} alt=""/></Link>
-               <p style={{color:"#32CD32"}}><FontAwesomeIcon icon={faShoppingCart} />   Order</p>
-               <Link to="/orders"><p><FontAwesomeIcon icon={faClipboardList} />   Service list</p></Link>
-               <Link to="/Review"><p><FontAwesomeIcon icon={faCommentDots} />   Review</p></Link>
-               
+               <SideNav></SideNav>
             </div>
             <div className="col-md-10 mt-4">
                 <p>Order <span style={{float:'right',marginRight:'50px'}}>{loggedInUser.name} </span></p>
                 <div className="input-sec">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                        <input className="input-one" name="name" placeholder="Your name / Company's name" ref={register({ required: true })} />
+                <form onSubmit={handleSubmit}>
+                        <input onBlur={handleBlur} className="input-one" name="name" placeholder="Your name / Company's name"  />
                         <br/>
-                        <input className="input" name="email" placeholder="Your email address" ref={register({ required: true })} />
+                        <input onBlur={handleBlur} className="input" name="email" placeholder="Your email"  />
                         <br/>
-                        <input className="input" name="title" placeholder="Project name" ref={register({ required: true })} />
+                        <input onBlur={handleBlur} className="input" name="projectName" placeholder="Project name"  />
                         <br/>
-                        <input className="input-detail" type="text" name="message" placeholder="Project Details" ref={register({ required: true })} ></input>
+                        <input onBlur={handleBlur} className="input-detail" name="details" placeholder="Project Details" />
                         <br/>
-                        <input className="input-price" type="text" name="price" placeholder="Price" ref={register({ required: true })} />
-                        <input className="input-price" type="file" name="file" placeholder="Upload project File" ref={register({ required: true })} />
+                        <input onBlur={handleBlur} className="input-price" name="price" placeholder="Price"  />
+                        <input onChange={handleFileChange} className="input-price" type="file" name="icon" id="exampleInputPassword1" />
                         <br/>
-                        <input className="btn btn-dark mt-2 px-5 ml-4" type="submit" value="Send" />
+                        <button className="btn btn-dark mt-2 px-5 ml-4" type="submit">Send</button>
                     </form>
                 </div>
             </div>

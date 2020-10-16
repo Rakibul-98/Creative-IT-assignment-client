@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 const Footer = () => {
 
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit} = useForm();
     const onSubmit = data => console.log(data);
 
     const textBoxStyle={
